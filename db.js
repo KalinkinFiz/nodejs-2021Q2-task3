@@ -13,4 +13,6 @@ sequelize.authenticate().then(
     function fail(err) {
         console.log(`Error: ${err}`);
     }
-)
+);
+
+module.exports = sequelize;
