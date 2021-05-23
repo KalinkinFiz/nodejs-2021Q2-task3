@@ -1,5 +1,5 @@
+const { StatusCodes } = require('http-status-codes');
 const router = require('express').Router();
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -8,7 +8,7 @@ const User = require('../db').import('../models/user');
 router.post('/signup', (req, res) => {
     User.findOne({ where: { username: req.body.user.username } }).then(user => {
         if (user) {
-            res.status(400).send({ error: "User whith this name exists." });
+            res.status(StatusCodes.BAD_REQUEST).json({ code: 'USER_NOT_CREATE', msg: 'User whith this name exists' });
         } else {
             User.create({
                 full_name: req.body.user.full_name,
@@ -19,14 +19,14 @@ router.post('/signup', (req, res) => {
                 .then(
                     function signupSuccess(user) {
                         let token = jwt.sign({ id: user.id }, 'lets_play_sum_games_man', { expiresIn: 60 * 60 * 24 });
-                        res.status(200).json({
+                        res.status(StatusCodes.CREATED).json({
                             user: user,
                             token: token
                         })
                     },
 
                     function signupFail(err) {
-                        res.status(500).send(err.message)
+                        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err.message)
                     }
                 )
         }
@@ -46,11 +46,15 @@ router.post('/signin', (req, res) => {
                         sessionToken: token
                     });
                 } else {
-                    res.status(502).send({ error: "Passwords do not match." })
+                    res
+                      .status(StatusCodes.UNAUTHORIZED)
+                      .json({ code: 'UNAUTHORIZED', msg: 'Passwords do not match.' });
                 }
             });
         } else {
-            res.status(403).send({ error: "User not found." })
+            res
+              .status(StatusCodes.NOT_FOUND)
+              .json({ code: 'USER_NOT_FOUND', msg: 'User not found' });
         }
 
     })

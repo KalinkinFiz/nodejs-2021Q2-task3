@@ -1,3 +1,4 @@
+const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 
 const User = require('../db').import('../models/user');
@@ -8,7 +9,7 @@ module.exports =  (req, res, next) => {
     } else {
         const sessionToken = req.headers.authorization;
         console.log(sessionToken);
-        if (!sessionToken) return res.status(403).send({ auth: false, message: "No token provided." });
+        if (!sessionToken) return res.status(StatusCodes.UNAUTHORIZED).json({ auth: false, message: "No token provided." });
         else {
             jwt.verify(sessionToken, 'lets_play_sum_games_man', (err, decoded) => {
                 if (decoded) {
@@ -18,11 +19,11 @@ module.exports =  (req, res, next) => {
                         next()
                     },
                         function () {
-                            res.status(401).send({ error: "not authorized" });
+                            res.status(StatusCodes.UNAUTHORIZED).json({ error: "not authorized" });
                         })
 
                 } else {
-                    res.status(400).send({ error: "not authorized" })
+                    res.status(StatusCodes.BAD_REQUEST).json({ error: "not authorized" })
                 }
             });
         }
