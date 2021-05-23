@@ -1,8 +1,9 @@
-var router = require('express').Router();
-var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+const router = require('express').Router();
 
-var User = require('../db').import('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const User = require('../db').import('../models/user');
 
 router.post('/signup', (req, res) => {
     User.findOne({ where: { username: req.body.user.username } }).then(user => {
@@ -38,7 +39,7 @@ router.post('/signin', (req, res) => {
         if (user) {
             bcrypt.compare(req.body.user.password, user.passwordHash, function (err, matches) {
                 if (matches) {
-                    var token = jwt.sign({ id: user.id }, 'lets_play_sum_games_man', { expiresIn: 60 * 60 * 24 });
+                    const token = jwt.sign({ id: user.id }, 'lets_play_sum_games_man', { expiresIn: 60 * 60 * 24 });
                     res.json({
                         user: user,
                         message: "Successfully authenticated.",
