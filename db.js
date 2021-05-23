@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
-                                //database username   password
+//database username   password
 const sequelize = new Sequelize('gamedb', 'postgres', '12345', {
     host: 'localhost',
-    dialect: 'postgres'
-})
+    dialect: 'postgres',
+});
 
 sequelize.authenticate().then(
     function success() {
-        console.log("Connected to DB");
+        console.log('Connected to DB');
     },
 
     function fail(err) {
