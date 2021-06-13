@@ -1,4 +1,4 @@
-function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     return sequelize.define('game', {
         title: {
             type: DataTypes.STRING(25),
@@ -7,12 +7,12 @@ function(sequelize, DataTypes) {
 
         owner_id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
 
         studio: {
             type: DataTypes.STRING,
-            allowNull: false,            
+            allowNull: false,
         },
 
         esrb_rating: {
@@ -25,14 +25,14 @@ function(sequelize, DataTypes) {
             allowNull: false,
             validate: {
                 min: 1,
-                max: 5
-            }
+                max: 5,
+            },
         },
 
-        have_played : {
+        have_played: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
-            allowNull: false
-        }
-    })
-}
+            allowNull: false,
+        },
+    });
+};

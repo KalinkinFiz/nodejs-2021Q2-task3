@@ -7,11 +7,12 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "http-status-codes": "^2.1.4",
     "jsonwebtoken": "^8.3.0",
-    "pg": "^7.6.0",
+    "pg": "^8.6.0",
     "sequelize": "^4.41.0"
   },
   "devDependencies": {
